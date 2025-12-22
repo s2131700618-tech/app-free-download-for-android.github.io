@@ -1,43 +1,188 @@
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8"> <!-- 設定編碼，避免亂碼 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 手機/電腦都能適配 -->
-  <title>Android APP 下載頁面</title> <!-- 瀏覽器標題列文字 -->
-</head>
-<body>
-  <h1>Android APP 免費下載</h1> <!-- 頁面主標題 -->
-    <p>Minecraft 下載</p> <!-- 段落文字 -->
-</body>
-</html>
-<head>
-    <title>链接按钮</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android APP 免費下載 - Minecraft</title>
     <style>
-        .button {
-            /* 基础按钮样式 */
-            display: inline-block; /* 允许设置宽度和高度，并保持内联流 */
-            padding: 0px 0px;
-            text-decoration: none; /* 移除链接下划线 */
-            background-color: #007bff; /* 按钮背景色 */
-            color: white; /* 文本颜色 */
-            border-radius: 5px; /* 圆角 */
-            border: none;
-            cursor: pointer; /* 鼠标悬停时显示指针 */
-            font-family: Arial, sans-serif;
-            font-size: 16px;
+        /* 基礎版面設定 */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0b0e14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 800px;
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
         }
 
-        .button:hover {
-            background-color: #0056b3; /* 悬停时的背景色 */
+        /* 互動網格底層 */
+        #grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            gap: 5px;
+            justify-content: center;
+            align-content: center;
+            z-index: 1; /* 確保在背景 */
+        }
+
+        .cell {
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(145deg, #3a7afe,#6b9dff);
+            border-radius: 4px;
+            transition: transform 0.15s ease-out, filter 0.2s ease;
+            will-change: transform;
+        }
+
+        /* 內容層：包含你的下載標題與按鈕 */
+        .content-container {
+            position: relative;
+            z-index: 10; /* 確保在方塊上方 */
+            text-align: center;
+            pointer-events: none; /* 讓滑鼠穿透空白處點擊背景 */
+        }
+
+        .glass-card {
+            pointer-events: auto; /* 恢復卡片區域的互動 */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            background: linear-gradient(to right, #fff, #6b9dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+        }
+
+        /* 圖片按鈕樣式 */
+        .image-button-link {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+        }
+
+        .image-button-link img {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .image-button-link:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* 額外提示文字 */
+        .download-hint {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #6b9dff;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <a href="https://mcpelife.com/minecraft-pe-1-21-123/download/1/" target="_blank" class="image-button-link">
-        <img 
-            src="Img/minecraft-150x150.png" 
-            alt=""
-        >
-    </a>
 
+    <div id="grid"></div>
 
+    <div class="content-container">
+        <div class="glass-card">
+            <h1>Android APP 免費下載</h1>
+            <p>Minecraft PE 下載</p>
+            
+            <a href="https://mcpelife.com/minecraft-pe-1-21-123/download/1/" target="_blank" class="image-button-link">
+                <img src="Img/minecraft-150x150.png" alt="Minecraft Download">
+            </a>
+            
+            <div class="download-hint">點擊圖示跳轉至下載頁面</div>
+        </div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        let cells = [];
+        const cellSize = 25; // 方塊大小 + Gap 的間距
+
+        // 動態生成填滿畫面的方塊
+        function createGrid() {
+            grid.innerHTML = '';
+            cells = [];
+            const cols = Math.ceil(window.innerWidth / cellSize) + 1;
+            const rows = Math.ceil(window.innerHeight / cellSize) + 1;
+            
+            grid.style.gridTemplateColumns = `repeat(${cols}, 25px)`;
+
+            for (let i = 0; i < cols * rows; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                grid.appendChild(cell);
+                cells.push(cell);
+            }
+        }
+
+        createGrid();
+        window.addEventListener('resize', createGrid);
+
+        // 滑鼠互動感應
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            cells.forEach((cell) => {
+                const rect = cell.getBoundingClientRect();
+                const cellX = rect.left + rect.width / 2;
+                const cellY = rect.top + rect.height / 2;
+
+                const diffX = mouseX - cellX;
+                const diffY = mouseY - cellY;
+                const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                const maxDist = 180;
+                
+                if (distance < maxDist) {
+                    const strength = (1 - distance / maxDist);
+                    cell.style.transform = `scale(${1 + strength * 0.9}) rotate(${strength * 45}deg)`;
+                    cell.style.filter = `brightness(${1 + strength * 0.6})`;
+                    cell.style.zIndex = "2";
+                } else {
+                    cell.style.transform = `scale(1) rotate(0deg)`;
+                    cell.style.filter = `brightness(1)`;
+                    cell.style.zIndex = "1";
+                }
+            });
+        });
+
+        // 離開視窗恢復
+        window.addEventListener('mouseleave', () => {
+            cells.forEach(cell => {
+                cell.style.transform = `scale(1) rotate(0deg)`;
+            });
+        });
+    </script>
 </body>
+</html>
