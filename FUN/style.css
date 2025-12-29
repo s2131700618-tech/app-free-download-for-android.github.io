@@ -1,0 +1,74 @@
+/* 1. 設定 Body：控制背景、字體與置中 */
+body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(
+            135deg,
+            #667eea 0%,
+            #764ba2 100%
+      ); /* 漸層背景 */
+      font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: white;
+}
+
+.container {
+      text-align: center;
+}
+
+/* 2. 通用 Button 設定：重設樣式 */
+button {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease; /* 平滑過渡效果 */
+      margin: 10px;
+      outline: none;
+      border: none;
+}
+
+/* 3. 主要按鈕 (填充色) */
+.btn-primary {
+      background-color: #ffffff;
+      color: #764ba2;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+      background-color: #f0f0f0;
+      transform: translateY(-3px); /* 向上跳動感 */
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 4. 次要按鈕 (外框線) */
+.btn-outline {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+}
+
+.btn-outline:hover {
+      background-color: white;
+      color: #764ba2;
+}
+
+/* 按下時的縮放效果 */
+button:active {
+      transform: scale(0.95);
+}
+
+.btn-download1 {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+}
+
+.btn-download1:hover {
+      background-color: white;
+      color: #764ba2;
+}
